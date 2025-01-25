@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VapingCation服务器确认EULA</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        width: 300px;
+        text-align: center;
+    }
+
+    h1, h2 {
+        color: #333;
+    }
+
+    label, input {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        background-color: #007bff;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .eula-text {
+        display: none;
+        margin-top: 20px;
+        background-color: #f9f9f9;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        text-align: left;
+    }
+
+    .eula-text button {
+        display: inline-block;
+        width: auto;
+        margin-right: 10px;
+    }
+
+    .message {
+        margin-top: 20px;
+        color: #d9534f;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>VapingCation服务器</h1>
+  <form id="login-form">
+    <label for="minecraft-id">Minecraft账号ID:</label>
+    <input type="text" id="minecraft-id" name="minecraft-id" required>
+    <button type="button" onclick="toggleEula()">我已阅读并同意<span id="eula-status">EULA</span></button>
+    <div class="eula-text" id="eula-content">
+      <p><strong>EULA提示:</strong> 点击下面的按钮，您即将转向详细EULA以方便您的查看！</p>
+      <button type="button" onclick="agreeEulaAndLogin()">转向EULA和官网</button>
+      <button type="button" onclick="toggleEula()">不同意</button>
+    </div>
+    <div class="message" id="login-message"></div>
+  </form>
+</div>
+
+<script>
+  let eulaAccepted = false;
+
+  function toggleEula() {
+      const eulaStatus = document.getElementById('eula-status');
+      const eulaContent = document.getElementById('eula-content');
+      if (eulaContent.style.display === 'block') {
+          eulaContent.style.display = 'none';
+          eulaStatus.textContent = 'EULA';
+      } else {
+          eulaContent.style.display = 'block';
+          eulaStatus.textContent = '↑'; // 可以使用图标或箭头表示可以收起
+      }
+  }
+
+  function agreeEulaAndLogin() {
+      eulaAccepted = true;
+      toggleEula(); // 收起EULA内容
+      loginUser();
+  }
+
+  function loginUser() {
+    if (!eulaAccepted) {
+        alert('您必须先同意EULA才能登录。');
+        return;
+    }
+
+    const minecraftId = document.getElementById('minecraft-id').value.trim();
+    if (minecraftId === '') {
+        document.getElementById('login-message').textContent = '请填写您的Minecraft账号ID。';
+        return;
+    }
+
+    // 在这里模拟登录过程（在实际应用中，应该发送请求到后端服务器进行验证）
+    // 假设验证成功，我们现在将用户重定向到另一个网站
+
+    // 假设这是一个模拟的验证过程，我们总是认为验证是成功的
+    // 在实际应用中，你应该根据从服务器返回的响应来决定是否重定向
+    const loginSuccessful = true; // 这应该是一个从服务器返回的布尔值
+
+    if (loginSuccessful) {
+        // 设置要重定向的URL
+        const redirectUrl = './vapingcation/index.html'; // 替换为你想要重定向到的URL
+
+        // 重定向用户到新的URL
+        window.location.href = redirectUrl;
+    } else {
+        // 登录失败，显示错误消息
+        document.getElementById('login-message').textContent = '登录失败，请重试。';
+    }
+}
+</script>
+
+</body>
+</html>
